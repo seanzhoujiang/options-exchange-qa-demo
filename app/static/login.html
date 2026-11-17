@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>期权交易 QA Demo · 登录</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body class="auth-page" data-page="login">
+    <main class="auth-shell">
+      <section class="auth-intro" aria-labelledby="login-title">
+        <a class="brand" href="/login" data-testid="brand-link" aria-label="期权交易 QA Demo 首页">
+          <span class="brand-mark" aria-hidden="true">OX</span>
+          <span>OPTIONS <span class="brand-light">EXCHANGE</span></span>
+        </a>
+        <div class="intro-copy">
+          <p class="eyebrow">PAPER TRADING · QA ENVIRONMENT</p>
+          <h1 id="login-title">把每个交易想法<br><span>放进真实流程里。</span></h1>
+          <p class="intro-description">在安全的演练环境中浏览合约、提交委托，并观察账户状态变化。</p>
+        </div>
+        <div class="market-note" aria-label="交易环境提示">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>模拟交易环境</span>
+          <span class="market-note-divider" aria-hidden="true"></span>
+          <span>订单不会进入真实市场</span>
+        </div>
+        <div class="intro-orbit intro-orbit-one" aria-hidden="true"></div>
+        <div class="intro-orbit intro-orbit-two" aria-hidden="true"></div>
+      </section>
+
+      <section class="auth-card" aria-labelledby="form-title">
+        <div class="card-heading">
+          <p class="eyebrow">WELCOME BACK</p>
+          <h2 id="form-title">登录交易终端</h2>
+          <p>输入演练账户信息以继续。</p>
+        </div>
+
+        <form id="login-form" class="form-stack" novalidate>
+          <label class="field-label" for="username">用户名</label>
+          <input id="username" name="username" type="text" autocomplete="username" placeholder="请输入用户名" required data-testid="username-input">
+
+          <label class="field-label field-label-spaced" for="password">密码</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="请输入密码" required data-testid="password-input">
+
+          <div class="captcha-heading">
+            <label class="field-label" for="captcha-answer">验证码</label>
+            <button class="text-button" id="refresh-captcha" type="button" data-testid="refresh-captcha-button">换一张</button>
+          </div>
+          <div class="captcha-row">
+            <input id="captcha-answer" name="captcha" type="text" autocomplete="off" placeholder="输入右侧验证码" required data-testid="captcha-input">
+            <output id="captcha-code" class="captcha-code" aria-label="当前验证码" data-testid="captcha-code">加载中…</output>
+          </div>
+          <p id="login-message" class="form-message" role="status" aria-live="polite" data-testid="login-message"></p>
+          <button id="login-submit" class="button button-primary button-wide" type="submit" data-testid="login-submit-button">
+            <span>登录并进入</span><span aria-hidden="true">↗</span>
+          </button>
+        </form>
+
+        <p class="card-footnote"><span class="lock-icon" aria-hidden="true">▣</span>仅用于 QA 演练，请勿输入真实账户密码。</p>
+      </section>
+      <footer class="auth-footer">OPTIONS EXCHANGE QA DEMO <span>·</span> 安全演练环境</footer>
+    </main>
+  </body>
+</html>

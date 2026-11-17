@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>期权交易 QA Demo · 交易终端</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body class="trade-page" data-page="trade">
+    <header class="topbar">
+      <a class="brand brand-dark" href="/trade" data-testid="trade-brand-link" aria-label="期权交易 QA Demo">
+        <span class="brand-mark" aria-hidden="true">OX</span>
+        <span>OPTIONS <span class="brand-light">EXCHANGE</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="environment-pill"><span class="pulse-dot" aria-hidden="true"></span>模拟环境</span>
+        <button id="logout-button" class="button button-quiet" type="button" data-testid="logout-button">退出登录</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">TRADING DESK <span class="heading-slash">/</span> PAPER ACCOUNT</p>
+          <h1>交易终端</h1>
+        </div>
+        <button id="refresh-data" class="button button-outline" type="button" data-testid="refresh-data-button"><span aria-hidden="true">↻</span> 刷新数据</button>
+      </div>
+
+      <section class="account-grid" aria-label="账户摘要">
+        <article class="account-card account-card-primary">
+          <p class="summary-label">账户余额</p>
+          <p class="summary-value" id="account-balance" data-testid="account-balance">—</p>
+          <span class="summary-caption">账户总资产</span>
+        </article>
+        <article class="account-card">
+          <p class="summary-label">可用资金</p>
+          <p class="summary-value" id="account-available" data-testid="account-available">—</p>
+          <span class="summary-caption">可用于新委托</span>
+        </article>
+        <article class="account-card">
+          <p class="summary-label">冻结资金</p>
+          <p class="summary-value" id="account-frozen" data-testid="account-frozen">—</p>
+          <span class="summary-caption">当前委托占用</span>
+        </article>
+        <article class="account-card account-status-card">
+          <p class="summary-label">账户状态</p>
+          <p class="summary-value status-value" id="account-status" data-testid="account-status">加载中</p>
+          <span class="summary-caption">演练账户</span>
+        </article>
+      </section>
+
+      <p id="trade-message" class="page-message" role="status" aria-live="polite" data-testid="trade-message"></p>
+
+      <div class="desk-grid">
+        <section class="panel order-panel" aria-labelledby="order-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">NEW ORDER</p>
+              <h2 id="order-title">提交委托</h2>
+            </div>
+            <span class="panel-icon" aria-hidden="true">＋</span>
+          </div>
+          <form id="order-form" class="form-stack" novalidate>
+            <label class="field-label" for="instrument-select">期权合约</label>
+            <select id="instrument-select" name="instrument" required data-testid="instrument-select">
+              <option value="">加载合约中…</option>
+            </select>
+
+            <label class="field-label field-label-spaced" for="order-side">委托方向</label>
+            <select id="order-side" name="side" required data-testid="order-side-select">
+              <option value="buy">买入</option>
+              <option value="sell">卖出</option>
+            </select>
+
+            <div class="order-input-grid">
+              <div>
+                <label class="field-label" for="order-price">委托价格</label>
+                <div class="input-with-suffix"><input id="order-price" name="price" type="number" min="0.5" step="0.5" inputmode="decimal" placeholder="0.00" required data-testid="order-price-input"><span>USDT</span></div>
+              </div>
+              <div>
+                <label class="field-label" for="order-quantity">委托数量</label>
+                <div class="input-with-suffix"><input id="order-quantity" name="quantity" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="0" required data-testid="order-quantity-input"><span>张</span></div>
+              </div>
+            </div>
+
+            <p id="order-message" class="form-message" role="status" aria-live="polite" data-testid="order-message"></p>
+            <button id="submit-order" class="button button-primary button-wide" type="submit" data-testid="submit-order-button">
+              <span>提交委托</span><span aria-hidden="true">↗</span>
+            </button>
+          </form>
+          <p class="panel-note"><span aria-hidden="true">ⓘ</span> 委托价格与数量将以字符串提交。</p>
+        </section>
+
+        <section class="panel instruments-panel" aria-labelledby="instruments-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">AVAILABLE CONTRACTS</p>
+              <h2 id="instruments-title">可交易合约</h2>
+            </div>
+            <span class="count-pill" id="instrument-count" data-testid="instrument-count">—</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th scope="col">合约</th><th scope="col">类型</th><th scope="col">行权价</th><th scope="col">到期日</th></tr></thead>
+              <tbody id="instrument-rows"><tr><td class="empty-cell" colspan="4">正在加载合约…</td></tr></tbody>
+            </table>
+          </div>
+          <p id="instruments-message" class="subtle-message" role="status" aria-live="polite" data-testid="instruments-message"></p>
+        </section>
+      </div>
+
+      <section class="panel data-panel" aria-labelledby="orders-title">
+        <div class="panel-heading panel-heading-inline">
+          <div>
+            <p class="eyebrow">LIVE QUEUE</p>
+            <h2 id="orders-title">未完成委托</h2>
+          </div>
+          <span class="count-pill" id="orders-count" data-testid="orders-count">—</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th scope="col">合约</th><th scope="col">方向</th><th scope="col">价格</th><th scope="col">数量</th><th scope="col">状态</th><th scope="col">操作</th></tr></thead>
+            <tbody id="order-rows"><tr><td class="empty-cell" colspan="6">正在加载委托…</td></tr></tbody>
+          </table>
+        </div>
+        <p id="orders-message" class="subtle-message" role="status" aria-live="polite" data-testid="orders-message"></p>
+      </section>
+
+      <section class="panel data-panel" aria-labelledby="positions-title">
+        <div class="panel-heading panel-heading-inline">
+          <div>
+            <p class="eyebrow">OPEN EXPOSURE</p>
+            <h2 id="positions-title">当前持仓</h2>
+          </div>
+          <span class="count-pill" id="positions-count" data-testid="positions-count">—</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th scope="col">合约</th><th scope="col">持仓数量</th><th scope="col">均价</th><th scope="col">标记价格</th><th scope="col">未实现盈亏</th></tr></thead>
+            <tbody id="position-rows"><tr><td class="empty-cell" colspan="5">正在加载持仓…</td></tr></tbody>
+          </table>
+        </div>
+        <p id="positions-message" class="subtle-message" role="status" aria-live="polite" data-testid="positions-message"></p>
+      </section>
+      <footer class="trade-footer">OPTIONS EXCHANGE QA DEMO <span>·</span> 模拟交易数据</footer>
+    </main>
+  </body>
+</html>

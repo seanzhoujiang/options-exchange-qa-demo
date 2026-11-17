@@ -1,0 +1,27 @@
+import re
+from decimal import Decimal
+
+CAPTCHA_TTL_SECONDS = 60
+CAPTCHA_DIGITS = 6
+PASSWORD_MIN_LENGTH = 8
+PASSWORD_MAX_LENGTH = 64
+PRICE_TICK = Decimal("0.5")
+QUANTITY_STEP = Decimal("0.1")
+MIN_QUANTITY = Decimal("0.1")
+MAX_QUANTITY = Decimal("100")
+MAX_PRICE = Decimal("1000000")
+SHORT_MARGIN_RATE = Decimal("0.15")
+MIN_SHORT_MARGIN_RATE = Decimal("0.10")
+MAINTENANCE_MARGIN_RATE = Decimal("0.075")
+SEED_BALANCE = Decimal("10000")
+SEED_INDEX_PRICE = Decimal("100000")
+ZERO = Decimal("0")
+EXPIRY = "2026-12-31T08:00:00Z"
+SEED_OPTIONS = (("100000", "call", "5000"), ("100000", "put", "4800"),
+                ("110000", "call", "2000"), ("90000", "put", "1500"))
+SEED_PASSWORDS = {"alice": "alice-pass-123", "bob": "bob-pass-123"}
+DECIMAL_MAX_DIGITS = 28
+PASSWORD_HASH_ITERATIONS = 600_000
+PASSWORD_SALT_BYTES = 16
+WS_SEND_TIMEOUT_SECONDS = 2
+PLAIN_DECIMAL_PATTERN = re.compile(r"[+-]?[0-9]+(?:\.[0-9]+)?")
