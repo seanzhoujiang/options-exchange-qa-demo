@@ -1,5 +1,7 @@
 # 模拟期权交易与测试
 
+[![自动化测试](https://github.com/seanzhoujiang/options-exchange-qa-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/seanzhoujiang/options-exchange-qa-demo/actions/workflows/ci.yml)
+
 更新时间：2026-11-17 17:42:23 JST。
 
 这是一个 FastAPI 模拟期权交易服务及其 API、Playwright、安全和 JMeter 测试。账户和订单只保存在进程内存中，业务规则为演示用途。
